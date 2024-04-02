@@ -9,7 +9,7 @@ RUN apt-get update \
 
 COPY . .
 RUN pip install --upgrade pip && pip install -r ./onemodel_v3/requirements.txt --no-cache-dir
-RUN chmod +x /docker_entrypoint.sh
+RUN chmod +x ./onemodel_v3/docker_entrypoint.sh
 
 EXPOSE 80
 
