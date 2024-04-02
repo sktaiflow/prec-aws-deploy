@@ -1,0 +1,46 @@
+name: Build Package and Push to AWS ECR 
+
+on:
+  push:
+    branches:
+    - develop
+    paths:
+    - .github/workflows/test-dev.yml
+
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout python version
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: ap-northeast-2
+          role-to-assume: arn:aws:iam::401244505709:role/github_action_role_ecr
+          role-session-name: GitActionOIDCSession # 추가 (oidc)
+          role-duration-seconds: 3600 # 추가 (oidc)
+          
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build and deploy
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          SERVICE_NAME: "onemodel_v3_test"
+          STACK_TYPE: "test"
+          VERSION: "2024.4.01"
+
+        run: |
+            echo $LATEST_TAG
+            docker build --build-arg VERSION=$VERSION -t $ECR_REGISTRY/$SERVICE_NAME:latest .
+            docker push -a $ECR_REGISTRY/$SERVICE_NAME
+            aws ecs update-service --cluster aide --service $SERVICE_NAME --task-definition $SERVICE_NAME --force-new-deployment
