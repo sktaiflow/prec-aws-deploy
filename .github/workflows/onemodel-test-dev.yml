@@ -29,7 +29,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-region: ap-northeast-2
-          role-to-assume: arn:aws:iam::401244505709:role/github_action_role_ecr_test
+          role-to-assume: arn:aws:iam::401244505709:role/jjh_test
           role-session-name: OIDCSession # 추가 (oidc)
           role-duration-seconds: 3600 # 추가 (oidc)
           
