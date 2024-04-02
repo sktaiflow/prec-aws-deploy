@@ -28,7 +28,7 @@ jobs:
         with:
           aws-region: ap-northeast-2
           role-to-assume: arn:aws:iam::401244505709:role/github_action_role_ecr
-          role-session-name: GitActionOIDCSession # 추가 (oidc)
+          role-session-name: OIDCSession # 추가 (oidc)
           role-duration-seconds: 3600 # 추가 (oidc)
           
       - name: Login to Amazon ECR
