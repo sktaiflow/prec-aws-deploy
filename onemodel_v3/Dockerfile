@@ -17,4 +17,4 @@ ENV TINI_VERSION v0.19.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 RUN chmod +x /tini
 
-ENTRYPOINT [".onemodel_v3/docker_entrypoint.sh"]
+ENTRYPOINT ["./onemodel_v3/docker_entrypoint.sh"]
