@@ -1,5 +1,5 @@
 # Now define the runtime image
-FROM 3.10.13-slim-bookworm
+FROM python:3.10.13-slim-bookworm
 
 
 RUN apt-get update \
